@@ -1,48 +1,15 @@
 <!DOCTYPE html>
-<head></head>
-<body>
-    <canvas id="pacmanCanvas" width="800" height="600"></canvas>
-
-<script>
-var canvas = document.getElementById('pacmanCanvas');
-var context = canvas.getContext('2d');
-
-// filling the canvas
-context.fillStyle = "black";
-context.fillRect(0, 0, canvas.width, canvas.height)
-
-// drawing pacman's head
-function pacmanHead() {
-  context.beginPath();
-  context.arc(100, 100, 100, 0.2 * Math.PI, 1.8 * Math.PI);
-
-  context.lineTo(100, 100);
-  context.closePath();
-
-  context.fillStyle = '#FF0';
-  context.fill();
-
-  context.strokeStyle = '#000';
-  context.stroke();
-
-  context.beginPath();
-  context.arc(110, 40, 10, 0, 2 * Math.PI);
-  context.fillStyle = "#000"
-  context.fill();
-  context.strokeStyle = '#000';
-  context.stroke();
-}
-
-// drawing ball
-function ball() {
-  context.beginPath()
-  context.arc(700, 80, 10, 0, 2 * Math.PI);
-  context.fillStyle = '#FFF'
-  context.fill()
-}
-
-pacmanHead()
-ball()
-
-</script>
-</body>
+<html>
+	<head>
+		 <script src="pacman.js"></script>
+	</head>
+	<body>
+		<canvas id="pacmanCanvas" width="800" height="600"></canvas>
+		<script>
+			let painter = new Painter();
+			painter.drawBackground();
+			painter.drawPacman();
+			painter.drawBall();
+		</script>
+	</body>
+</html>
