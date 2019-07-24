@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		 <script src="pacman.js"></script>
+		<meta charset="UTF-8">
+		<script src="pacman.js"></script>
+		<title>Pacman</title>
 	</head>
 	<body>
 		<canvas id="pacmanCanvas" width="800" height="600"></canvas>
 		<script>
 			let painter = new Painter();
 			painter.drawBackground();
-			painter.drawPacman();
-			painter.drawBall();
+			painter.drawPacman(new Position(100, 100));
+			painter.drawPacman(new Position(500, 500));
+			painter.drawBall(new Position(700, 100));
+			painter.drawBall(new Position(200, 500));
+			painter.drawBall(new Position(300, 300));
+			painter.drawBall(new Position(600, 400));
 		</script>
 	</body>
 </html>
