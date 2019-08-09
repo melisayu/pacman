@@ -62,5 +62,17 @@ class Painter {
         this.context.fillStyle = BALL_FILL_STYLE
         this.context.fill()
     }
+
+    // Draws ghost
+    drawGhostBody() {
+        this.context.beginPath();
+        this.context.arc(460, 200, 60, 0, 2 * Math.PI);
+        this.context.fillRect(400, 200, 120, 65);
+        this.context.arc(420, 260, 20, 0, 2 * Math.PI);
+        this.context.arc(500, 260, 20, 0, 2 * Math.PI);
+        this.context.arc(460, 260, 20, 0, 2 * Math.PI);
+        this.context.fill();
+    }
+    drawGhostEyes() {}
 }
 
