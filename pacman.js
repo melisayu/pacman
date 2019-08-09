@@ -74,34 +74,6 @@ class Painter {
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    // Draws pacman's head.
-    drawPacman(pos) {
-        // Draw head and mouth
-        this.context.beginPath();
-        this.context.arc(pos.x, pos.y, Size.PACMAN.RADIUS, 0.2 * Math.PI, 1.8 * Math.PI);
-        this.context.lineTo(pos.x, pos.y);
-        this.context.closePath();
-
-        this.context.lineWidth = Size.PACMAN.STROKE_WIDTH;
-        this.context.fillStyle = Style.PACMAN_FILL;
-        this.context.fill();
-        this.context.strokeStyle = Style.PACMAN_STROKE;
-        this.context.stroke();
-
-        // Draw the eye
-        const eye_pos = new Position(
-            pos.x + Size.PACMAN.EYE_X_OFFSET,
-            pos.y + Size.PACMAN.EYE_Y_OFFSET
-        );
-        this.context.beginPath();
-        this.context.arc(eye_pos.x, eye_pos.y, Size.PACMAN.EYE_RADIUS, 0, 2 * Math.PI);
-
-        this.context.fillStyle = Style.PACMAN_EYE_FILL;
-        this.context.fill();
-        this.context.strokeStyle = Style.PACMAN_EYE_STROKE;
-        this.context.stroke();
-    }
-
     // Draws a ball.
     drawBall(pos) {
         this.context.beginPath();
@@ -235,6 +207,49 @@ class TurnWallTile extends BasicTile {
         );
         painter.context.lineWidth = Size.WALL_WIDTH;
         painter.context.strokeStyle = Style.WALL;
+        painter.context.stroke();
+    }
+}
+
+class Pacman {
+    constructor(position) {
+        this.move_to(position);
+    }
+
+    move_to(position) {
+        this.position = position;
+    }
+
+    paint(painter) {
+        // Draw head and mouth
+        painter.context.beginPath();
+        painter.context.arc(
+            this.position.x,
+            this.position.y,
+            Size.PACMAN.RADIUS,
+            0.2 * Math.PI,
+            1.8 * Math.PI
+        );
+        painter.context.lineTo(this.position.x, this.position.y);
+        painter.context.closePath();
+
+        painter.context.lineWidth = Size.PACMAN.STROKE_WIDTH;
+        painter.context.fillStyle = Style.PACMAN_FILL;
+        painter.context.fill();
+        painter.context.strokeStyle = Style.PACMAN_STROKE;
+        painter.context.stroke();
+
+        // Draw the eye
+        const eye_pos = new Position(
+            this.position.x + Size.PACMAN.EYE_X_OFFSET,
+            this.position.y + Size.PACMAN.EYE_Y_OFFSET
+        );
+        painter.context.beginPath();
+        painter.context.arc(eye_pos.x, eye_pos.y, Size.PACMAN.EYE_RADIUS, 0, 2 * Math.PI);
+
+        painter.context.fillStyle = Style.PACMAN_EYE_FILL;
+        painter.context.fill();
+        painter.context.strokeStyle = Style.PACMAN_EYE_STROKE;
         painter.context.stroke();
     }
 }
