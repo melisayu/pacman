@@ -1,34 +1,43 @@
-const TILE_RADIUS = 20;
-const TILE_SIZE = 2 * TILE_RADIUS;
-const PACMAN_RADIUS = 1.7 * TILE_RADIUS;
-const PACMAN_STROKE_WIDTH = 1;
-const PACMAN_EYE_RADIUS = 0.1 * PACMAN_RADIUS;
-const PACMAN_EYE_X_OFFSET = 0.1 * PACMAN_RADIUS
-const PACMAN_EYE_Y_OFFSET = -0.6 * PACMAN_RADIUS
-const BALL_RADIUS = 0.25 * TILE_SIZE;
-const WALL_WIDTH = 0.5 * TILE_RADIUS;
 
-const BACKGROUND_STYLE = '#000';
-const PACMAN_FILL_STYLE = '#FF0';
-const PACMAN_STROKE_STYLE = '#000';
-const PACMAN_EYE_FILL_STYLE = '#000';
-const PACMAN_EYE_STROKE_STYLE = '#000';
-const BALL_FILL_STYLE = '#FFF'
-const WALL_STYLE = '#55F'
+const Size = new (function () {
+    this.TILE_RADIUS = 20;
+    this.CREATURE_RADIUS = 1.7 * this.TILE_RADIUS;
+    this.PACMAN = {
+        RADIUS: this.CREATURE_RADIUS,
+        EYE_RADIUS: 0.15 * this.CREATURE_RADIUS,
+        EYE_X_OFFSET: 0.1 * this.CREATURE_RADIUS,
+        EYE_Y_OFFSET: -0.6 * this.CREATURE_RADIUS,
+        MAX_MOUTH_WIDTH: 0.2 * Math.PI,
+    };
+    this.BALL_RADIUS = 0.5 * this.TILE_RADIUS;
+    this.WALL_WIDTH = 0.5 * this.TILE_RADIUS;
+})();
 
-const TILE_EMPTY = ' ';
-const TILE_BALL = '·';
-const TILE_WALL_H = '─';
-const TILE_WALL_V = '│';
-const TILE_WALL_SE = '╭';
-const TILE_WALL_SW = '╮';
-const TILE_WALL_NW = '╯';
-const TILE_WALL_NE = '╰';
+const Style = {
+    BACKGROUND: '#000',
+    PACMAN_FILL: '#FF0',
+    PACMAN_EYE_FILL: '#000',
+    BALL_FILL: '#FFF',
+    WALL: '#55F',
+};
 
-const SIDE_N = 1;
-const SIDE_E = 2;
-const SIDE_S = 3;
-const SIDE_W = 4;
+const Tile = {
+    EMPTY: ' ',
+    BALL: '·',
+    WALL_H: '─',
+    WALL_V: '│',
+    WALL_SE: '╭',
+    WALL_SW: '╮',
+    WALL_NW: '╯',
+    WALL_NE: '╰',
+};
+
+const Side = {
+    N: 1,
+    E: 2,
+    S: 3,
+    W: 4,
+};
 
 const BOARDS = [
     '╭─╮\n' +
@@ -59,40 +68,15 @@ class Painter {
 
     // Fills the canvas with a black background.
     drawBackground() {
-        this.context.fillStyle = BACKGROUND_STYLE;
+        this.context.fillStyle = Style.BACKGROUND;
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-
-    // Draws pacman's head.
-    drawPacman(pos) {
-        // Draw head and mouth
-        this.context.beginPath();
-        this.context.arc(pos.x, pos.y, PACMAN_RADIUS, 0.2 * Math.PI, 1.8 * Math.PI);
-        this.context.lineTo(pos.x, pos.y);
-        this.context.closePath();
-
-        this.context.lineWidth = PACMAN_STROKE_WIDTH;
-        this.context.fillStyle = PACMAN_FILL_STYLE;
-        this.context.fill();
-        this.context.strokeStyle = PACMAN_STROKE_STYLE;
-        this.context.stroke();
-
-        // Draw the eye
-        const eye_pos = new Position(pos.x + PACMAN_EYE_X_OFFSET, pos.y + PACMAN_EYE_Y_OFFSET);
-        this.context.beginPath();
-        this.context.arc(eye_pos.x, eye_pos.y, PACMAN_EYE_RADIUS, 0, 2 * Math.PI);
-
-        this.context.fillStyle = PACMAN_EYE_FILL_STYLE
-        this.context.fill();
-        this.context.strokeStyle = PACMAN_EYE_STROKE_STYLE;
-        this.context.stroke();
     }
 
     // Draws a ball.
     drawBall(pos) {
         this.context.beginPath();
-        this.context.arc(pos.x, pos.y, BALL_RADIUS, 0, 2 * Math.PI);
-        this.context.fillStyle = BALL_FILL_STYLE
+        this.context.arc(pos.x, pos.y, Size.BALL_RADIUS, 0, 2 * Math.PI);
+        this.context.fillStyle = Style.BALL_FILL;
         this.context.fill()
     }
 
@@ -162,10 +146,10 @@ class HorizontalWallTile extends BasicTile {
 
     paint(painter) {
         painter.context.beginPath();
-        painter.context.moveTo(this.position.x - TILE_RADIUS, this.position.y);
-        painter.context.lineTo(this.position.x + TILE_RADIUS, this.position.y);
-        painter.context.lineWidth = WALL_WIDTH;
-        painter.context.strokeStyle = WALL_STYLE;
+        painter.context.moveTo(this.position.x - Size.TILE_RADIUS, this.position.y);
+        painter.context.lineTo(this.position.x + Size.TILE_RADIUS, this.position.y);
+        painter.context.lineWidth = Size.WALL_WIDTH;
+        painter.context.strokeStyle = Style.WALL;
         painter.context.stroke();
     }
 }
@@ -177,10 +161,10 @@ class VerticalWallTile extends BasicTile {
 
     paint(painter) {
         painter.context.beginPath();
-        painter.context.moveTo(this.position.x, this.position.y - TILE_RADIUS);
-        painter.context.lineTo(this.position.x, this.position.y + TILE_RADIUS);
-        painter.context.lineWidth = WALL_WIDTH;
-        painter.context.strokeStyle = WALL_STYLE;
+        painter.context.moveTo(this.position.x, this.position.y - Size.TILE_RADIUS);
+        painter.context.lineTo(this.position.x, this.position.y + Size.TILE_RADIUS);
+        painter.context.lineWidth = Size.WALL_WIDTH;
+        painter.context.strokeStyle = Style.WALL;
         painter.context.stroke();
     }
 }
@@ -190,20 +174,20 @@ class TurnWallTile extends BasicTile {
         super(position);
 
         this.origin = new Position(position.x, position.y);
-        if (side1 == SIDE_N) {
-            this.origin.y -= TILE_RADIUS;
+        if (side1 == Side.N) {
+            this.origin.y -= Size.TILE_RADIUS;
             this.start_angle = 0.5 * Math.PI;
             this.anticlockwise = true;
-        } else if (side1 == SIDE_S) {
-            this.origin.y += TILE_RADIUS;
+        } else if (side1 == Side.S) {
+            this.origin.y += Size.TILE_RADIUS;
             this.start_angle = 1.5 * Math.PI;
             this.anticlockwise = false;
         }
-        if (side2 == SIDE_W) {
-            this.origin.x -= TILE_RADIUS;
+        if (side2 == Side.W) {
+            this.origin.x -= Size.TILE_RADIUS;
             this.end_angle = 2.0 * Math.PI;
-        } else if (side2 == SIDE_E) {
-            this.origin.x += TILE_RADIUS;
+        } else if (side2 == Side.E) {
+            this.origin.x += Size.TILE_RADIUS;
             this.end_angle = 1.0 * Math.PI;
             this.anticlockwise = !this.anticlockwise;
         }
@@ -214,14 +198,54 @@ class TurnWallTile extends BasicTile {
         painter.context.arc(
             this.origin.x,
             this.origin.y,
-            TILE_RADIUS,
+            Size.TILE_RADIUS,
             this.start_angle,
             this.end_angle,
             this.anticlockwise
         );
-        painter.context.lineWidth = WALL_WIDTH;
-        painter.context.strokeStyle = WALL_STYLE;
+        painter.context.lineWidth = Size.WALL_WIDTH;
+        painter.context.strokeStyle = Style.WALL;
         painter.context.stroke();
+    }
+}
+
+class Pacman {
+    constructor(position) {
+        this.move_to(position);
+    }
+
+    move_to(position) {
+        this.position = position;
+    }
+
+    paint(painter, time) {
+        let mouth_width = Size.PACMAN.MAX_MOUTH_WIDTH * Math.abs(Math.sin(0.01 * time));
+
+        // Draw head and mouth
+        painter.context.beginPath();
+        painter.context.arc(
+            this.position.x,
+            this.position.y,
+            Size.PACMAN.RADIUS,
+            mouth_width,
+            2.0 * Math.PI - mouth_width
+        );
+        painter.context.lineTo(this.position.x, this.position.y);
+        painter.context.closePath();
+
+        painter.context.fillStyle = Style.PACMAN_FILL;
+        painter.context.fill();
+
+        // Draw the eye
+        const eye_pos = new Position(
+            this.position.x + Size.PACMAN.EYE_X_OFFSET,
+            this.position.y + Size.PACMAN.EYE_Y_OFFSET
+        );
+        painter.context.beginPath();
+        painter.context.arc(eye_pos.x, eye_pos.y, Size.PACMAN.EYE_RADIUS, 0, 2 * Math.PI);
+
+        painter.context.fillStyle = Style.PACMAN_EYE_FILL;
+        painter.context.fill();
     }
 }
 
@@ -232,22 +256,25 @@ class Board {
         for (let [y, subtemplate] of template.split('\n').entries()) {
             let row = []
             for (let [x, element] of subtemplate.split('').entries()) {
-                let pos = new Position(TILE_SIZE * x + position.x, TILE_SIZE * y + position.y);
+                let pos = new Position(
+                    2 * Size.TILE_RADIUS * x + position.x,
+                    2 * Size.TILE_RADIUS * y + position.y
+                );
                 let tile = new BasicTile(pos);
-                if (element == TILE_BALL) {
+                if (element == Tile.BALL) {
                     tile = new BallTile(pos);
-                } else if (element == TILE_WALL_H) {
+                } else if (element == Tile.WALL_H) {
                     tile = new HorizontalWallTile(pos);
-                } else if (element == TILE_WALL_V) {
+                } else if (element == Tile.WALL_V) {
                     tile = new VerticalWallTile(pos);
-                } else if (element == TILE_WALL_NW) {
-                    tile = new TurnWallTile(pos, SIDE_N, SIDE_W);
-                } else if (element == TILE_WALL_NE) {
-                    tile = new TurnWallTile(pos, SIDE_N, SIDE_E);
-                } else if (element == TILE_WALL_SE) {
-                    tile = new TurnWallTile(pos, SIDE_S, SIDE_E);
-                } else if (element == TILE_WALL_SW) {
-                    tile = new TurnWallTile(pos, SIDE_S, SIDE_W);
+                } else if (element == Tile.WALL_NW) {
+                    tile = new TurnWallTile(pos, Side.N, Side.W);
+                } else if (element == Tile.WALL_NE) {
+                    tile = new TurnWallTile(pos, Side.N, Side.E);
+                } else if (element == Tile.WALL_SE) {
+                    tile = new TurnWallTile(pos, Side.S, Side.E);
+                } else if (element == Tile.WALL_SW) {
+                    tile = new TurnWallTile(pos, Side.S, Side.W);
                 }
                 row.push(tile);
             }
