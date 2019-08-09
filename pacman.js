@@ -4,10 +4,10 @@ const Size = new (function () {
     this.CREATURE_RADIUS = 1.7 * this.TILE_RADIUS;
     this.PACMAN = {
         RADIUS: this.CREATURE_RADIUS,
-        STROKE_WIDTH: 1,
-        EYE_RADIUS: 0.1 * this.CREATURE_RADIUS,
+        EYE_RADIUS: 0.15 * this.CREATURE_RADIUS,
         EYE_X_OFFSET: 0.1 * this.CREATURE_RADIUS,
         EYE_Y_OFFSET: -0.6 * this.CREATURE_RADIUS,
+        MAX_MOUTH_WIDTH: 0.2 * Math.PI,
     };
     this.BALL_RADIUS = 0.5 * this.TILE_RADIUS;
     this.WALL_WIDTH = 0.5 * this.TILE_RADIUS;
@@ -16,9 +16,7 @@ const Size = new (function () {
 const Style = {
     BACKGROUND: '#000',
     PACMAN_FILL: '#FF0',
-    PACMAN_STROKE: '#000',
     PACMAN_EYE_FILL: '#000',
-    PACMAN_EYE_STROKE: '#000',
     BALL_FILL: '#FFF',
     WALL: '#55F',
 };
@@ -220,24 +218,23 @@ class Pacman {
         this.position = position;
     }
 
-    paint(painter) {
+    paint(painter, time) {
+        let mouth_width = Size.PACMAN.MAX_MOUTH_WIDTH * Math.abs(Math.sin(0.01 * time));
+
         // Draw head and mouth
         painter.context.beginPath();
         painter.context.arc(
             this.position.x,
             this.position.y,
             Size.PACMAN.RADIUS,
-            0.2 * Math.PI,
-            1.8 * Math.PI
+            mouth_width,
+            2.0 * Math.PI - mouth_width
         );
         painter.context.lineTo(this.position.x, this.position.y);
         painter.context.closePath();
 
-        painter.context.lineWidth = Size.PACMAN.STROKE_WIDTH;
         painter.context.fillStyle = Style.PACMAN_FILL;
         painter.context.fill();
-        painter.context.strokeStyle = Style.PACMAN_STROKE;
-        painter.context.stroke();
 
         // Draw the eye
         const eye_pos = new Position(
@@ -249,8 +246,6 @@ class Pacman {
 
         painter.context.fillStyle = Style.PACMAN_EYE_FILL;
         painter.context.fill();
-        painter.context.strokeStyle = Style.PACMAN_EYE_STROKE;
-        painter.context.stroke();
     }
 }
 

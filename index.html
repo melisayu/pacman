@@ -14,15 +14,20 @@
 			let pacman1 = new Pacman(new Position(100, 100));
 			let pacman2 = new Pacman(new Position(500, 500));
 
-			painter.drawBackground();
-			board1.paint(painter);
-			board2.paint(painter);
-			pacman1.paint(painter);
-			pacman2.paint(painter);
-			painter.drawBall(new Position(700, 100));
-			painter.drawBall(new Position(200, 500));
-			painter.drawBall(new Position(600, 400));
-			painter.drawGhostBody();
+			let redraw = function(start_time) {
+				let time = new Date().getTime() - start_time;
+				painter.drawBackground();
+				board1.paint(painter);
+				board2.paint(painter);
+				pacman1.paint(painter, time);
+				pacman2.paint(painter, time);
+				painter.drawBall(new Position(700, 100));
+				painter.drawBall(new Position(200, 500));
+				painter.drawBall(new Position(600, 400));
+				painter.drawGhostBody();
+			};
+
+			window.setInterval(redraw, 20, new Date().getTime());
 		</script>
 	</body>
 </html>
