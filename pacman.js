@@ -72,7 +72,33 @@ class Painter {
         this.context.arc(500, 260, 20, 0, 2 * Math.PI);
         this.context.arc(460, 260, 20, 0, 2 * Math.PI);
         this.context.fill();
+
+        
+        this.context.beginPath();
+        this.context.arc(430, 200, 15, 0, 2 * Math.PI);
+        this.context.fillStyle = "white";
+        this.context.fill();
+        this.context.lineWidth = 2;
+        this.context.strokeStyle = "black";
+        this.context.stroke();
+
+        this.context.beginPath();
+        this.context.arc(435, 200, 10, 0, 2 * Math.PI);
+        this.context.fillStyle = "blue";
+        this.context.fill();
+    
+        this.context.beginPath();
+        this.context.arc(490, 200, 15, 0, 2 * Math.PI);
+        this.context.fillStyle = "white";
+        this.context.fill();
+        this.context.lineWidth = 2;
+        this.context.strokeStyle = "black";
+        this.context.stroke();
+
+        this.context.beginPath();
+        this.context.arc(495, 200, 10, 0, 2 * Math.PI);
+        this.context.fillStyle = "blue";
+        this.context.fill();
     }
-    drawGhostEyes() {}
 }
 
