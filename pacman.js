@@ -1,6 +1,6 @@
 
 const Size = new (function () {
-    this.TILE_RADIUS = 20;
+    this.TILE_RADIUS = 8;
     this.CREATURE_RADIUS = 1.7 * this.TILE_RADIUS;
     this.PACMAN = {
         RADIUS: this.CREATURE_RADIUS,
@@ -43,11 +43,15 @@ const BOARDS = [
     '╭─╮\n' +
     '│·│\n' +
     '╰─╯\n',
-    '╭──────╮\n' +
-    '│ ·····│\n' +
-    '╰─╮·╭──╯\n' +
-    '  │·╰──╮\n' +
-    '  ╰────╯\n'];
+    '╭──────────────────╮\n' +
+    '│ ············│         │\n' +
+    '│ ╭──╮·╭────╮·│         \n' +
+    '│·│  │·│    │·│     \n' +
+    '│·╰──╯ ╰────╯ │      \n' +
+    '│· \n'];
+
+
+
 
 class Position {
     constructor(x, y) {
